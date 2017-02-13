@@ -8,42 +8,6 @@ const Room = require("../models/Room");
 
 const errors = require("../config/errors");
 
-// module.exports.findOne = (socket, action, next) => {
-//   User
-//   .findOne(action.data)
-//   .then(user => {
-//     socket.emit("server:push", [{
-//       type: "ROOM_GET_ONE_SUCCESS",
-//       payload: user,
-//     }])
-//   })
-//   .catch(err => next(err));
-// }
-
-// module.exports.findAll = (socket, action, next) => {
-//   User
-//   .findAll()
-//   .then(users => {
-//     socket.emit("server:push", [{
-//       type: "ROOM_GET_ALL_SUCCESS",
-//       payload: users,
-//     }])
-//   })
-//   .catch(err => next(err));
-// }
-
-// module.exports.saveOne = (socket, action, next) => {
-//   User
-//   .saveOne(action.data)
-//   .then(user => {
-//     socket.emit("server:push", [{
-//       type: "ROOM_SAVE_ONE_SUCCESS",
-//       payload: user,
-//     }])
-//   })
-//   .catch(err => next(err));
-// };
-
 module.exports.loginUser = (req, res, next) => {
   let foundUser;
 
@@ -96,23 +60,6 @@ module.exports.loginAnonUser = (req, res, next) => {
       token,
       expires: payload.expires,
     });
-  })
-  .catch(err => next(err));
-};
-
-module.exports.logoutAnonUser = (action, response, next) => {
-  Promise.all([
-    User.updateById({ online: false }, action.data._id),
-    Room.removeUserFromRooms(action.data._id),
-  ])
-  .then(result => {
-    return response.broadcast(["all"], [{
-      type: "ROOM_LEAVE_ALL_SUCCESS",
-      payload: {
-        user: action.data,
-      },
-      // notification: `User ${socket.decoded_token.user.fullname} updated an User`,
-    }], action.data)
   })
   .catch(err => next(err));
 };

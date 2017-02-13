@@ -1,5 +1,5 @@
 NODE_ENV=development
-PORT=3333
+PORT=3332
 WEBSOCKET_PORT=8008
 TOKEN_SECRET=secrecy
 DB_URL2=mongodb://mydbuser:mydbpassword@localhost:27017/mydb

@@ -25,10 +25,6 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 /**
- * Busboy is used for parsing data received as form-data such as file uploads.
- */
-app.use(busboy());
-/**
  * Body parser parses the request body from http-requests that have it.
  */
 app.use(bodyParser.urlencoded({
@@ -47,8 +43,6 @@ app.use(cors({ credentials: true, origin: ["http://localhost:3333", "https://sla
  */
 app.use("", require("./config/routes"));
 
-const SocketIOServer = require("./services/SocketIOServer");
-
 /**
  * If module has no parent which means that it has been loaded directly with 'node app.js'
  * then start up the server. This is used for testing when starting up the server is
@@ -62,8 +56,6 @@ if (!module.parent) {
       console.log(`App is listening on port ${port}`);
     }
   });
-
-  SocketIOServer.start();
 
   process.on("exit", () => {
     app.close();
